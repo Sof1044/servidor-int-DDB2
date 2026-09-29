@@ -6,6 +6,8 @@ const hostname = 'localhost'
 const PORT = 3000
 const conn = require('./db/conn')
 
+const usuarioController = require('./controller/usuario.controller')
+
 // ------------- middleware ------------------
 app.use(express.urlencoded({exteded: true}))
 app.use(express.json())
@@ -13,6 +15,9 @@ app.use(cors())
 // -------------------------------------------
 
 // ---------- Rotas ---------------
+
+app.post('/usuario', usuarioController.cadastrar)
+app.post('/usuario2', usuarioController.cadastrar2)
 
 app.get('/teste', (req,res)=>{
     res.status(200).json({mesage: "rota de teste da API"})
@@ -29,6 +34,7 @@ app.get('/altura', (req,res)=>{
 })
 
 
+
 app.get('/', (req,res)=>{
     res.status(200).json({message: 'Aplicação Server Rodando!'})
 })
@@ -36,7 +42,7 @@ app.get('/', (req,res)=>{
 conn.sync()
     .then(()=>{
         app.listen(PORT, hostname, ()=>{
-            console.log(`Servidor rodando em ${hostname}:${PORT}`)
+            console.log(`Servidor rodando em http://${hostname}:${PORT}`)
         })
     })
     .catch((err)=>{
